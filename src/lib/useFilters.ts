@@ -94,7 +94,6 @@ export const useFilters = <T = Record<string, string | number>>({
       hasNext: prev.count > prev.pageSize
     }));
   }, []);
-  console.log(pagination);
 
   return {
     search: search,

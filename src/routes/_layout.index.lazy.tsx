@@ -79,7 +79,7 @@ function VehiclesListPage() {
           )}
         />
       </div>
-      {(filteredVehicles?.length || 0) >= 12 ? (
+      {pagination.pageSize >= 12 ? (
         <VehicleListPagination
           setPageSize={setPageSize}
           className='pb-4'

@@ -8,7 +8,7 @@ import {
 } from '@/components/ui';
 import { debounce } from '@/lib/debounce';
 import { PaginationType } from '@/lib/types';
-import { ComponentProps, FC, memo, useCallback, useState } from 'react';
+import { ComponentProps, FC, memo, useCallback, useEffect, useState } from 'react';
 
 interface Props extends ComponentProps<typeof Pagination> {
   handleNextPage: () => void;
@@ -26,6 +26,10 @@ export const VehicleListPagination: FC<Props> = memo(
     ...rest
   }) => {
     const [pageSize, setPageSize] = useState(filtersPageSize);
+
+    useEffect(() => {
+      setPageSize(filtersPageSize);
+    }, [filtersPageSize]);
 
     const handleSetPageSize = useCallback(
       debounce((value: number) => {
