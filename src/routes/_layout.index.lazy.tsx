@@ -1,4 +1,5 @@
 import { VehiclesListQuery, useVehiclesListQuery } from '@/api/gql';
+import { PageLoader } from '@/components/ui';
 
 import { VehicleList } from '@/components/widgets';
 import { VehicleListFilters, VehicleListPagination } from '@/components/widgets/VehiclesList';
@@ -53,7 +54,7 @@ function VehiclesListPage() {
     }
   }, [data, search]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <PageLoader />;
 
   return (
     <>

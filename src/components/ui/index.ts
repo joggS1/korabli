@@ -8,3 +8,5 @@ export * from './input';
 export * from './separator';
 export * from './tabs';
 export * from './accordion';
+export * from './spinner'
+export * from './pageloader'

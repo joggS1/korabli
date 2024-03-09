@@ -1,3 +1,4 @@
+import { PageLoader } from '@/components/ui';
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
 import React, { Suspense } from 'react';
 const TanStackRouterDevtools =
@@ -14,7 +15,7 @@ const TanStackRouterDevtools =
 
 export const Route = createRootRoute({
   component: () => (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<PageLoader/>}>
       <header className='fixed flex h-10 w-full gap-2 bg-white p-2'>
         <Link to='/' className='[&.active]:font-bold [&.active]:text-blue-300'>
           Home

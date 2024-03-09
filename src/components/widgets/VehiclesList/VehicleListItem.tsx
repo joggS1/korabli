@@ -22,13 +22,17 @@ export const VehicleListItem: FC<Vehicle> = ({
   isClan,
   isSpecial,
   isPremium,
-  hasGoldPrice
+  hasGoldPrice,
+  type
 }) => {
   return (
     <Card className={'group max-w-[300px]  outline-slate-800 delay-0 hover:outline'}>
       <CardHeader className='text-center'>
         <CardTitle>{title}</CardTitle>
         <CardDescription>
+          {type?.title}
+        </CardDescription>
+        <CardDescription className='space-y-0'>
           {nation?.title} - {convertToRoman(level!)}
         </CardDescription>
       </CardHeader>

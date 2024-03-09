@@ -13,6 +13,9 @@ query VehiclesList {
     }
     hasGoldPrice
     typeName
+    type {
+      title
+    }
     nationName
     nation {
       title

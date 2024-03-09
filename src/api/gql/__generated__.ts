@@ -1086,6 +1086,7 @@ export type VehiclesListQuery = {
     readonly typeName?: string;
     readonly nationName?: string;
     readonly icons?: { readonly __typename?: 'IconsVehicle'; readonly small?: any };
+    readonly type?: { readonly __typename?: 'VehicleType'; readonly title?: any };
     readonly nation?: {
       readonly __typename?: 'Nation';
       readonly title?: any;
@@ -1171,6 +1172,9 @@ export const VehiclesListDocument = gql`
       }
       hasGoldPrice
       typeName
+      type {
+        title
+      }
       nationName
       nation {
         title

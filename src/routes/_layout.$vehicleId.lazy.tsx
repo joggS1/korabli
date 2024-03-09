@@ -1,8 +1,9 @@
 import { Vehicle, useVehicleQuery } from '@/api/gql';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui';
+import { PageLoader, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui';
 import { VehicleInfoAccordionList } from '@/components/widgets/VehicleInfo';
 import { VehicleMainInfo } from '@/components/widgets/VehicleInfo/VehicleMainInfo';
 import { convertToRoman } from '@/lib/convertToRoman';
+import { cn } from '@/lib/utils';
 import { createLazyFileRoute, useParams } from '@tanstack/react-router';
 
 export const Route = createLazyFileRoute('/_layout/$vehicleId')({
@@ -19,12 +20,12 @@ function PostPage() {
       id: vehicleId
     }
   });
-  console.log(data);
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <PageLoader />;
   const vehicle = data?.vehicles?.[0] as Vehicle;
   const ttc = vehicle?.ttc;
   const modifications = vehicle?.modernizations;
   const consumables = vehicle?.consumables;
+  const count = +!!ttc?.length + +!!modifications?.length + +!!consumables?.length + 1;
   return (
     <div className='grid grid-cols-12'>
       <div className='col-span-5'>
@@ -40,24 +41,37 @@ function PostPage() {
           {vehicle?.title} - {convertToRoman(vehicle?.level || 1)}
         </h1>
         <Tabs defaultValue='info' className='w-full'>
-          <TabsList className='grid w-full grid-cols-4'>
+          <TabsList key={count} className={cn(`grid w-full`, {
+            'grid-cols-1': count === 1,
+            'grid-cols-2': count === 2,
+            'grid-cols-3': count === 3,
+            'grid-cols-4': count === 4
+          })}>
             <TabsTrigger value='info'>Основное</TabsTrigger>
-            <TabsTrigger value='ttc'>ТТХ</TabsTrigger>
-            <TabsTrigger value='modifications'>Модификации</TabsTrigger>
-            <TabsTrigger value='consumables'>Расходники</TabsTrigger>
+            {!!ttc?.length && <TabsTrigger value='ttc'>ТТХ</TabsTrigger>}
+            {!!modifications?.length && (
+              <TabsTrigger value='modifications'>Модификации</TabsTrigger>
+            )}
+            {!!consumables?.length && <TabsTrigger value='consumables'>Расходники</TabsTrigger>}
           </TabsList>
           <TabsContent value='info'>
             <VehicleMainInfo vehicle={vehicle} />
           </TabsContent>
-          <TabsContent value='ttc'>
-            {!!ttc?.length && <VehicleInfoAccordionList items={ttc} />}
-          </TabsContent>
-          <TabsContent value='modifications'>
-            {!!modifications?.length && <VehicleInfoAccordionList items={modifications} />}
-          </TabsContent>
-          <TabsContent value='consumables'>
-            {!!consumables?.length && <VehicleInfoAccordionList items={consumables} />}
-          </TabsContent>
+          {!!ttc?.length && (
+            <TabsContent value='ttc'>
+              <VehicleInfoAccordionList items={ttc.map((item) => ({ title: `${item.title} - ${item.value}` , description: item.description }))} />
+            </TabsContent>
+          )}
+          {!!modifications?.length && (
+            <TabsContent value='modifications'>
+              <VehicleInfoAccordionList items={modifications} />
+            </TabsContent>
+          )}
+          {!!consumables?.length && (
+            <TabsContent value='consumables'>
+              <VehicleInfoAccordionList items={consumables} />
+            </TabsContent>
+          )}
         </Tabs>
       </div>
     </div>
