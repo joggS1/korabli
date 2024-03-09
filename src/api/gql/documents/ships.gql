@@ -1,0 +1,77 @@
+query VehiclesList {
+  vehicles(lang: "ru") {
+    id
+    title
+    name
+    titleShort
+    level
+    isPremium
+    isClan
+    isSpecial
+    icons {
+      small
+    }
+    hasGoldPrice
+    typeName
+    nationName
+    nation {
+      title
+      icons {
+        tiny
+      }
+    }
+  }
+}
+
+query VehicleListFilters {
+  vehicleTypes(lang: "ru") {
+    name
+    title
+  }
+  nations(lang: "ru") {
+    name
+    title
+  }
+}
+
+query Vehicle($id: String!) {
+  vehicles(vehicleId: $id, lang: "ru") {
+    title
+    level
+    description
+    icons {
+      large
+    }
+    consumables {
+      name
+      title
+      description
+    }
+    modernizations {
+      name
+      title
+      description
+    }
+    hasGoldPrice
+    isPremium
+    isClan
+    isSpecial
+    ttc {
+      name
+      title
+      description
+      unit
+      name
+      value
+    }
+    type {
+      title
+    }
+    nation {
+      title
+      icons {
+        tiny
+      }
+    }
+  }
+}
